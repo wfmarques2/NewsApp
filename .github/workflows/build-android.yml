@@ -1,4 +1,4 @@
-name: "Build Android app"
+name: "NewsApp"
 
 on:
   workflow_dispatch:
