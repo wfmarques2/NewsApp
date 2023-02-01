@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import {Text,View,ScrollView,TouchableOpacity, Image} from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 
 import FastImage from 'react-native-fast-image'
     state = {
-       loading: false,
-       data: [],
-       current_page: 1,
-       error: null,
-       hasMore: true
-     }
-     
-     componentDidMount() { this.getListOfData(); };
+        loading: false,
+        data: [],
+        current_page: 1,
+        error: null,
+        hasMore: true
+    }
 
-     getListOfData = () => {
+    componentDidMount() { this.getListOfData(); };
+
+    getListOfData = () => {
         if (this.state.loading) { return; }
         this.setState({ loading: true });
         let newData = [];
         newData.push({
-            title: "Lorem ipsum", 
+            title: "Lorem ipsum",
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in congue risus, non viverra tellus. Nam faucibus ligula non metus ultrices mollis. Cras dolor purus, hendrerit eu eros quis, dignissim eleifend mi. In tincidunt mi in diam egestas congue ac ut purus. Nulla semper libero vitae blandit vehicula.",
             image: require("../images/img1.png"),
             id: this.state.data.length
@@ -26,13 +26,13 @@ import FastImage from 'react-native-fast-image'
             title: "Curabitur vulputate", 
             text: "Curabitur vulputate enim in lacus imperdiet, a convallis odio posuere. Nulla id ex et purus sodales rutrum non eu eros. Ut consequat est lacus.",
             image: require("../images/img2.png"),
-            id: this.state.data.length+1
+            id: this.state.data.length + 1
         });
         newData.push({
-            title: "Proin hendrerit", 
+            title: "Proin hendrerit",
             text: "Proin hendrerit nisl id turpis bibendum, sit amet scelerisque augue elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a blandit sapien.",
             image: require("../images/img3.png"),
-            id: this.state.data.length+2
+            id: this.state.data.length + 2
         });
         this.setState({
             hasMore: true,        
@@ -40,40 +40,47 @@ import FastImage from 'react-native-fast-image'
             loading: false,
             current_page: this.state.current_page + 1
         });
-       
+
     }
 
-    isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {   
-        return layoutMeasurement.height + contentOffset.y 
-        >= contentSize.height - 50; 
+    isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
+        return layoutMeasurement.height + contentOffset.y
+            >= contentSize.height - 50;
     }
 
-    renderList = () => {
-        return ( this.state.data.map((u) => {
-          return ( 
-            <TouchableOpacity key={u.id}>
+    renderList = (u) => {
+
+        return (
+            <TouchableOpacity key={u.item.id}>
                     <View style={{ padding: 10 }}>
                     <FastImage
                             style={{ width: 200, height: 200 }}
-                            source={u.image}
+                            source={u.item.image}
                             resizeMode={FastImage.resizeMode.contain}
                         />
-                       <Text style={{ fontSize: 15}}>{u.title}</Text>        
-                       <Text>{u.text}</Text>
+                        <Text style={{ fontSize: 15 }}>{u.item.title}</Text>
+                        <Text>{u.item.text}</Text>
                     </View>
-             </TouchableOpacity>);
-            })
-       );
+                    </TouchableOpacity>);
+
+}
       }
 
     render() {
         return (
-          <ScrollView onScroll={({ nativeEvent }) => {
-            if (this.isCloseToBottom(nativeEvent) && this.state.hasMore) {                
-                 this.getListOfData(); }}}> 
-            {this.renderList()} 
-          </ScrollView>
-          );
-      }
+            <View>
+            <FlatList data={this.state.data}
+                renderItem={item => this.renderList(item)}
+                keyExtractor={item => item.id.toString()}
+                numColumns={1}
+                initialNumToRender={15}
+                onScroll={({ nativeEvent }) => {
+                    if (this.isCloseToBottom(nativeEvent) && this.state.hasMore) {
+                        this.getListOfData();
+                    }
+                }} />
+        </View>
+    );
+}
 
 }
