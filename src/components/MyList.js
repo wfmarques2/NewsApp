@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Text,View,ScrollView,TouchableOpacity, Image} from 'react-native';
 
-export default class MyList extends Component {
+import FastImage from 'react-native-fast-image'
     state = {
        loading: false,
        data: [],
@@ -53,7 +53,11 @@ export default class MyList extends Component {
           return ( 
             <TouchableOpacity key={u.id}>
                     <View style={{ padding: 10 }}>
-                    <Image style={{ width: 200, height: 200 }} source={u.image} ></Image>
+                    <FastImage
+                            style={{ width: 200, height: 200 }}
+                            source={u.image}
+                            resizeMode={FastImage.resizeMode.contain}
+                        />
                        <Text style={{ fontSize: 15}}>{u.title}</Text>        
                        <Text>{u.text}</Text>
                     </View>
