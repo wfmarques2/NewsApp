@@ -45,7 +45,7 @@ import FastImage from 'react-native-fast-image'
 
     isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }) {
         return layoutMeasurement.height + contentOffset.y
-            >= contentSize.height - 50;
+            >= contentSize.height - 500;
     }
 
     renderList = (u) => {
