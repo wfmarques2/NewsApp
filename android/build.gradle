@@ -9,13 +9,25 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
+        jcenter { url "http://jcenter.bintray.com/"}
+        maven { url "https://dl.bintray.com/android/android-tools" }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:3.5.3")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+}
+subprojects { project ->
+  def name = project.name
+  if (name.contains('module name, e.g. react-native-blur')
+        || name.contains('other module name, e.g. react-native-image-picker')) {
+    buildscript {
+        repositories {
+            maven { url "https://dl.bintray.com/android/android-tools/"  }
+        }
+    }
+  } 
 }
 
 allprojects {
